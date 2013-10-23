@@ -1,0 +1,48 @@
+﻿@*  the following line is from the view helper method, as is the next line of razor code *@
+
+@model MvcAuction.Models.Auction  
+
+@{
+   
+    //  var auction = (MvcAuction.Models.Auction)ViewData["Auction"];      //<--One Way to do it..
+    // var auction = ViewBag.Auction;  //  <--  second way to do it...
+    //  third way is view helper.  this is started by adding auction ad a parameter to the view(auction) in the controller
+
+
+    var auction = Model;
+    
+}
+<div class="auction">
+
+    <h3>@auction.Title</h3>
+
+    <div class="details">
+        <p>Start Time: @auction.StartTime.ToString("g")</p>
+        <p>End Time: @auction.EndTime.ToString("g")</p>
+        <p>Starting Price:@auction.StartPrice.ToString("g")</p>
+
+        @*
+                Since Current Price is nullable we have to check to see if it has a value before we call .ToString()!
+        *@
+
+        <p>Current Price:
+            @if(auction.CurrentPrice == null)
+            {
+                @: [No bids]
+            }
+            else
+            {
+                <span>@auction.CurrentPrice.Value.ToString("C")</span>
+            }
+        </p>
+    </div>
+
+    @if(auction.ImageUrl !=null){
+        <img src="@auction.ImageUrl" title="@auction.Title" />
+    }
+
+    <div class="description">
+        @auction.Description
+    </div>
+
+</div>
